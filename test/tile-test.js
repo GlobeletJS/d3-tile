@@ -8,6 +8,8 @@ tape("d3.tile() has the expected defaults", test => {
   test.deepEqual(tile.scale()({k: 256}), 256);
   test.deepEqual(tile.translate()({x: 480, y: 250}), [480, 250]);
   test.deepEqual(tile.zoomDelta(), 0);
+  test.deepEqual(tile.minZoom(), 0);
+  test.deepEqual(tile.maxZoom(), 30);
   test.deepEqual(tile.tileSize(), 256);
   test.deepEqual(tile.clampX(), true);
   test.deepEqual(tile.clampY(), true);
