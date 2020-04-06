@@ -169,6 +169,22 @@ If *zoomDelta* is specified, sets this tile layout’s zoom offset to the specif
 const tile = d3.tile().zoomDelta(2);
 ```
 
+<a href="#tile_minZoom" name="tile_minZoom">#</a> <i>tile</i>.<b>minZoom</b>([<i>minZoom</i>]) · [Source](https://github.com/d3/d3-tile/blob/master/src/tile.js)
+
+If *minZoom* is specified, sets this tile layout’s minimum zoom to the specified number *minZoom* and returns this tile layout. If *minZoom* is not specified, returns the current minimum zoom, which defaults to 0. The z-coordinates in the returned tiles array will not be less than *minZoom*, even if the current [scale](#tile_scale) would otherwise correspond to a smaller z-coordinate. This allows the display to be zoomed out, beyond the smallest zoom level of the available tiles.
+
+```js
+const tile = d3.tile().minZoom(1);
+```
+
+<a href="#tile_maxZoom" name="tile_maxZoom">#</a> <i>tile</i>.<b>maxZoom</b>([<i>maxZoom</i>]) · [Source](https://github.com/d3/d3-tile/blob/master/src/tile.js)
+
+If *maxZoom* is specified, sets this tile layout’s maximum zoom to the specified number *maxZoom* and returns this tile layout. If *maxZoom* is not specified, returns the current maximum zoom, which defaults to 30. The z-coordinates in the returned tiles array will not exceed *maxZoom*, even if the current [scale](#tile_scale) would otherwise correspond to a larger z-coordinate. This allows the display to be overzoomed, beyond the largest zoom level of the available tiles.
+
+```js
+const tile = d3.tile().maxZoom(14);
+```
+
 <a href="#tileWrap" name="tileWrap">#</a> d3.<b>tileWrap</b>(*tile*) · [Source](https://github.com/d3/d3-tile/blob/master/src/wrap.js), [Examples](https://observablehq.com/@d3/wrapped-tiles)
 
 Given *tile* coordinates [*x*, *y*, *z*], where *x* and *y* may be outside the “world” tile [0, 0, 0], returns the wrapped tile coordinates [*x′*, *y′*, *z*] where *j* = 2 ^ *z*, *x′* = *x* - ⌊*x* / *j*⌋ * *j* and *y′* = *y* - ⌊*y* / *j*⌋ * *j*. This function is most commonly used in conjunction with [*tile*.clampX](#tile_clampX) to allow horizontal wrapping of web Mercator tiles.

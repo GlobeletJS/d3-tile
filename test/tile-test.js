@@ -110,6 +110,34 @@ tape("tile(…) observes the zoom delta", test => {
   test.deepEqual(d3.tile().scale(512).translate([256, 256]).size([256, 256]).zoomDelta(1)(), Object.assign([[0, 0, 2], [1, 0, 2], [0, 1, 2], [1, 1, 2]], {translate: [0, 0], scale: 128}));
 });
 
+tape("tile.minZoom(…) sets the minimum zoom", test => {
+  const tile = d3.tile().minZoom(1);
+  test.deepEqual(tile.minZoom(), 1);
+});
+
+tape("tile.minZoom(…) coerces the input to numbers", test => {
+  const tile = d3.tile().minZoom(" 1 ");
+  test.strictEqual(tile.minZoom(), 1);
+});
+
+tape("tile(…) observes the minimum zoom", test => {
+  test.deepEqual(d3.tile().scale(256).translate([128, 128]).size([256, 256]).minZoom(1)(), Object.assign([[0, 0, 1], [1, 0, 1], [0, 1, 1], [1, 1, 1]], {translate: [0, 0], scale: 128}));
+});
+
+tape("tile.maxZoom(…) sets the maximum zoom", test => {
+  const tile = d3.tile().maxZoom(0);
+  test.deepEqual(tile.maxZoom(), 0);
+});
+
+tape("tile.maxZoom(…) coerces the input to numbers", test => {
+  const tile = d3.tile().maxZoom(" 0 ");
+  test.strictEqual(tile.maxZoom(), 0);
+});
+
+tape("tile(…) observes the maximum zoom", test => {
+  test.deepEqual(d3.tile().scale(512).translate([256, 256]).size([512, 512]).maxZoom(0)(), Object.assign([[0, 0, 0]], {translate: [0, 0], scale: 512}));
+});
+
 tape("tile.tileSize(…) sets the tile size", test => {
   const tile = d3.tile().tileSize(1000);
   test.deepEqual(tile.tileSize(), 1000);
@@ -125,7 +153,7 @@ tape("tile(…) observes the tile size", test => {
   test.deepEqual(d3.tile().scale(512).translate([256, 256]).size([256, 256]).tileSize(128)(), Object.assign([[0, 0, 2], [1, 0, 2], [0, 1, 2], [1, 1, 2]], {translate: [0, 0], scale: 128}));
 });
 
-tape("tile.clampX(…) sets the x-clampt", test => {
+tape("tile.clampX(…) sets the x-clamp", test => {
   const tile = d3.tile().clampX(false);
   test.deepEqual(tile.clampX(), false);
   test.deepEqual(tile({k: 256, x: 480, y: 250}), Object.assign([
@@ -140,7 +168,7 @@ tape("tile(…) observes the x-clamp", test => {
   test.deepEqual(d3.tile().scale(256).translate([0, 0]).size([256, 256]).clampX(false)(), Object.assign([[0, 0, 0], [1, 0, 0]], {translate: [-0.5, -0.5], scale: 256}));
 });
 
-tape("tile.clampY(…) sets the y-clampt", test => {
+tape("tile.clampY(…) sets the y-clamp", test => {
   const tile = d3.tile().clampY(false);
   test.deepEqual(tile.clampY(), false);
   test.deepEqual(tile({k: 256, x: 480, y: 250}), Object.assign([
