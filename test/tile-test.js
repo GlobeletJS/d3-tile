@@ -8,7 +8,6 @@ tape("d3.tile() has the expected defaults", test => {
   test.deepEqual(tile.scale()({k: 256}), 256);
   test.deepEqual(tile.translate()({x: 480, y: 250}), [480, 250]);
   test.deepEqual(tile.zoomDelta(), 0);
-  test.deepEqual(tile.minZoom(), 0);
   test.deepEqual(tile.maxZoom(), 30);
   test.deepEqual(tile.tileSize(), 256);
   test.deepEqual(tile.clampX(), true);
@@ -110,20 +109,6 @@ tape("tile.zoomDelta(…) coerces the input to numbers", test => {
 tape("tile(…) observes the zoom delta", test => {
   test.deepEqual(d3.tile().scale(512).translate([256, 256]).size([256, 256]).zoomDelta(-1)(), Object.assign([[0, 0, 0]], {translate: [0, 0], scale: 512}));
   test.deepEqual(d3.tile().scale(512).translate([256, 256]).size([256, 256]).zoomDelta(1)(), Object.assign([[0, 0, 2], [1, 0, 2], [0, 1, 2], [1, 1, 2]], {translate: [0, 0], scale: 128}));
-});
-
-tape("tile.minZoom(…) sets the minimum zoom", test => {
-  const tile = d3.tile().minZoom(1);
-  test.deepEqual(tile.minZoom(), 1);
-});
-
-tape("tile.minZoom(…) coerces the input to numbers", test => {
-  const tile = d3.tile().minZoom(" 1 ");
-  test.strictEqual(tile.minZoom(), 1);
-});
-
-tape("tile(…) observes the minimum zoom", test => {
-  test.deepEqual(d3.tile().scale(256).translate([128, 128]).size([256, 256]).minZoom(1)(), Object.assign([[0, 0, 1], [1, 0, 1], [0, 1, 1], [1, 1, 1]], {translate: [0, 0], scale: 128}));
 });
 
 tape("tile.maxZoom(…) sets the maximum zoom", test => {

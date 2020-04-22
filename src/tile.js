@@ -13,7 +13,7 @@ function constant(x) {
 }
 
 export default function() {
-  let minZoom = 0, maxZoom = 30;
+  let maxZoom = 30;
   let x0 = 0, y0 = 0, x1 = 960, y1 = 500;
   let clampX = true, clampY = true;
   let tileSize = 256;
@@ -25,7 +25,7 @@ export default function() {
     const scale_ = +scale.apply(this, arguments);
     const translate_ = translate.apply(this, arguments);
     const z = Math.log2(scale_ / tileSize);
-    const z0 = Math.round(Math.min(Math.max(minZoom, z + zoomDelta), maxZoom));
+    const z0 = Math.round(Math.min(z + zoomDelta, maxZoom));
     const k = Math.pow(2, z - z0) * tileSize;
     const x = +translate_[0] - scale_ / 2;
     const y = +translate_[1] - scale_ / 2;
@@ -34,13 +34,13 @@ export default function() {
     const ymin = Math.max(clampY ? 0 : -Infinity, Math.floor((y0 - y) / k));
     const ymax = Math.min(clampY ? 1 << z0 : Infinity, Math.ceil((y1 - y) / k));
     const tiles = [];
+    tiles.translate = [x / k, y / k];
+    tiles.scale = k;
     for (let y = ymin; y < ymax; ++y) {
       for (let x = xmin; x < xmax; ++x) {
         tiles.push([x, y, z0]);
       }
     }
-    tiles.translate = [x / k, y / k];
-    tiles.scale = k;
     return tiles;
   }
 
@@ -62,10 +62,6 @@ export default function() {
 
   tile.zoomDelta = function(_) {
     return arguments.length ? (zoomDelta = +_, tile) : zoomDelta;
-  };
-
-  tile.minZoom = function(_) {
-    return arguments.length ? (minZoom = +_, tile) : minZoom;
   };
 
   tile.maxZoom = function(_) {
