@@ -13,6 +13,7 @@ function constant(x) {
 }
 
 export default function() {
+  const minZoom = 0;
   let maxZoom = 30;
   let x0 = 0, y0 = 0, x1 = 960, y1 = 500;
   let clampX = true, clampY = true;
@@ -25,7 +26,7 @@ export default function() {
     const scale_ = +scale.apply(this, arguments);
     const translate_ = translate.apply(this, arguments);
     const z = Math.log2(scale_ / tileSize);
-    const z0 = Math.round(Math.min(z + zoomDelta, maxZoom));
+    const z0 = Math.round( Math.min(Math.max(minZoom, z + zoomDelta), maxZoom) );
     const k = Math.pow(2, z - z0) * tileSize;
     const x = +translate_[0] - scale_ / 2;
     const y = +translate_[1] - scale_ / 2;
